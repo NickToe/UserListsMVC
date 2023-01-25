@@ -1,0 +1,6 @@
+﻿.dropdown:hover .dropdown-menu {
+  display: flex;
+  flex-wrap: wrap;
+  color: red;
+  background-color: yellow;
+}

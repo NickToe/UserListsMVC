@@ -1,0 +1,51 @@
+﻿@model UserListItemsViewModel<UserList<WishlistItem>>
+
+@if (Model.UserList.IsPublic)
+{
+  @if (Model.UserList.UserListItems.Any())
+  {
+    <table class="table table-striped table-dark" style="font-size:medium">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Poster</th>
+          <th scope="col">Id</th>
+          <th scope="col">Title</th>
+          <th scope="col">Added</th>
+          <th scope="col">Planned</th>
+          <th scope="col">Started</th>
+          <th scope="col">Finished</th>
+          <th scope="col">Status</th>
+          <th scope="col">Score</th>
+          <th scope="col">Vote</th>
+        </tr>
+      </thead>
+    @foreach (var item in Model.UserList.UserListItems)
+    {
+    <tbody>
+      <tr>
+        <th scope="row" class="positionColumn"><input type="text" class="positionInput" name="position" value="@item.Position" disabled></th>
+        <td class="posterColumn"><img class="img-fluid" src="@item.ItemPoster" alt="@item.ItemTitle poster"/></td>
+        <td><label class="labelCommonColumn">@item.ItemId</label></td>
+        <td><label class="labelCommonColumn">@item.ItemTitle</label></td>
+        <td><label class="labelCommonColumn">@item.DateAdded</label></td>
+        <td><label class="labelCommonColumn">@item.PlannedDate</label></td>
+        <td><label class="labelCommonColumn">@item.StartedDate </label></td>
+        <td><label class="labelCommonColumn">@item.FinishedDate </label></td>
+        <td><label class="labelCommonColumn">@item.ItemStatus </label></td>
+        <td><label class="labelCommonColumn">@item.PersonalScore </label></td>
+        <td><label class="labelCommonColumn">@item.PersonalVote </label></td>
+      </tr>
+    </tbody>
+    }
+    </table>
+  }
+  else
+  {
+    <p> There are no items in @Model.UserName's @Model.UserList.Name. </p>
+  }
+}
+else
+{
+  <p> @Model.UserName's @Model.UserList.Name is private. </p>
+}

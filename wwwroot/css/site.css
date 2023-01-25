@@ -1,0 +1,80 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.positionInput {
+  background-color: black;
+  color: white;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  margin-top: 30px;
+  margin-left: 10px;
+  border: 3px inset #1B1B5B;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.editableElem {
+  background-color: black;
+  color: white;
+  text-align: center;
+  margin-top: 30px;
+  border: 3px inset #1B1B5B;
+  border-radius: 6px;
+  height: 40px;
+  color-scheme: dark;
+}
+
+.posterColumn {
+  width: 220px;
+  height: 110px;
+}
+
+.positionColumn {
+  width: 70px;
+  height: auto;
+}
+
+.labelCommonColumn {
+  text-align: center;
+  margin-top: 35px;
+}
+
+.moviePosterColumn {
+  width: 180px;
+  height: 240px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.dropdown:hover .dropdown-menu {
+  flex-wrap: wrap;
+  color: red;
+  background-color: yellow;
+}

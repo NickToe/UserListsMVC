@@ -1,0 +1,34 @@
+﻿@model AddItemPageViewModel<Game>
+
+<form method="get">
+  <div class="form-group">
+    <label for="gameTitle">Game Title</label>
+    <input type="text" class="form-control" id="gameTitle" name="title" aria-describedby="searchTip" placeholder="Enter game title" required pattern=".{4,}" title="at least 4 characters">
+    <small id="searchTip" class="form-text text-muted">Returns a bunch of games to you</small>
+  </div>
+  <button type="submit" asp-controller="Game" asp-action="Search" class="btn btn-primary">Submit</button>
+</form>
+
+@if(Model.Items.Any())
+{
+  <p> Games found: </p>
+  @foreach (var item in Model.Items)
+  {
+    <div>
+       Title: <a asp-controller="Game" asp-route-id="@item.Id" asp-action="Get"> @item.Title </a> Id: @item.Id 
+       <a class="btn btn-primary" asp-controller="@UserListType.Followlist" asp-route-poster="@item.PosterLink" asp-route-itemId="@item.Id" asp-route-title="@item.Title" asp-action="Add" asp-route-contentType="@Model.ContentType"> Follow </a>
+           <a class="btn btn-primary" asp-controller="@UserListType.Wishlist" asp-route-poster="@item.PosterLink" asp-route-itemId="@item.Id" asp-route-title="@item.Title" asp-action="Add" asp-route-contentType="@Model.ContentType"> Wish </a>
+       
+       @if(Model.CustomLists.Any())
+       {
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Custom Lists </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          @foreach (var customList in Model.CustomLists)
+          {
+            <a class="dropdown-item" asp-controller="@customList.ListType" asp-action="Add" asp-route-contentType="@customList.ContentType" asp-route-listName="@customList.Name" asp-route-poster="@item.PosterLink" asp-route-itemId="@item.Id" asp-route-title="@item.Title">@customList.Name</a>
+          }
+        </div>
+       }
+    </div>
+  }
+}

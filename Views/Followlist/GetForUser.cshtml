@@ -1,0 +1,42 @@
+﻿@model UserListItemsViewModel<UserList<FollowlistItem>>
+
+@if (Model.UserList.IsPublic)
+{
+  <label style="font-size: 30px; border: 10px inset #1B1B5B;"> @Model.UserName Followlist </label>
+  @if (Model.UserList.UserListItems.Any())
+  {
+  <table class="table table-striped table-dark" style="font-size:medium">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Poster</th>
+        <th scope="col">Id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Added</th>
+        <th scope="col">Notifications</th>
+      </tr>
+    </thead>
+    @foreach (var item in Model.UserList.UserListItems)
+    {
+      <tbody>
+        <tr>
+          <th scope="row" class="positionColumn"><input type="number" class="positionInput" name="position" value="@item.Position" disabled></th>
+          <td class="posterColumn"><img class="img-fluid" src="@item.ItemPoster" alt="@item.ItemTitle poster"/></td>
+          <td><label class="labelCommonColumn">@item.ItemId</label></td>
+          <td><label class="labelCommonColumn">@item.ItemTitle</label></td>
+          <td><label class="labelCommonColumn">@item.DateAdded</label></td>
+          <td class="notifColumn"><label class="labelCommonColumn">@item.Notifications</label></td>
+       </tr>
+    </tbody>
+    }
+  </table>
+  }
+  else
+  {
+    <p> There are no items in @Model.UserName's @Model.UserList.Name. </p>
+  }
+}
+else
+{
+  <p> @Model.UserName's @Model.UserList.Name is private. </p>
+}

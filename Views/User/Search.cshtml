@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{
+  ViewData["Title"] = "User Search";
+}
+
+<form method="get">
+  <div class="form-group">
+    <label for="UserName">User Name</label>
+    <input type="text" class="form-control" name="userName" aria-describedby="searchTip" placeholder="Enter username" required pattern=".{3,}" title="at least 3 characters">
+    <small id="searchTip" class="form-text text-muted">Returns matching users</small>
+  </div>
+  <button type="submit" asp-controller="User" asp-action="Search" class="btn btn-primary">Submit</button>
+</form>
+
+<div><p></p></div>
+
+@if (Model.Any())
+{
+  <form method="get">
+    <div class="form-group">
+      @foreach (var user in Model)
+      {
+        <p> UserName: <a asp-controller="User" asp-route-userName="@user.UserName" asp-action="Profile"> @user.UserName </a> </p>
+      }
+    </div>
+  </form>
+}

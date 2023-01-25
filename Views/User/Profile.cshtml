@@ -1,0 +1,40 @@
+﻿@model UserListViewModel
+
+<div class="col">
+  <label style="font-size: 25px; font-weight: 600; border: 7px inset #1B1B5B; padding: 10px 45px 10px 45px; color: white; background-color: #212529; margin-bottom: 10px;"> @Model.UserName's Lists</label>
+</div>
+
+<div>
+@if(Model.Followlists.Any())
+{
+  foreach(var list in Model.Followlists)
+  {
+    if(list.IsPublic)
+    {
+      <p><a asp-controller="@list.ListType" asp-action="GetForUser" asp-route-userName="@Model.UserName" asp-route-contentType="@list.ContentType" asp-route-listName="@list.Name">@list.Name</a></p>
+    }
+  }
+}
+
+@if (Model.Wishlists.Any())
+{
+  foreach (var list in Model.Wishlists)
+  {
+    if (list.IsPublic)
+    {
+      <p><a asp-controller="@list.ListType" asp-action="GetForUser" asp-route-userName="@Model.UserName" asp-route-contentType="@list.ContentType" asp-route-listName="@list.Name">@list.Name</a></p>
+    }
+  }
+}
+
+@if (Model.CustomLists.Any())
+{
+  foreach (var list in Model.CustomLists)
+  {
+    if (list.IsPublic)
+    {
+      <p><a asp-controller="@list.ListType" asp-action="GetForUser" asp-route-userName="@Model.UserName" asp-route-contentType="@list.ContentType" asp-route-listName="@list.Name">@list.Name</a></p>
+    }
+  }
+}
+</div>

@@ -1,0 +1,22 @@
+﻿@model UserListViewModel
+
+<form method="get">
+  <p> Create Custom List: </p>
+  <div class="form-group">
+    <label for="listName">List Name</label>
+    <input type="text" class="form-control" name="listName" aria-describedby="listName" placeholder="list name..." required pattern=".{5,}" title="at least 5 characters">
+    <small id="listName" class="form-text text-muted">Name of custom list</small>
+  </div>
+  <button type="submit" asp-controller="@UserListType.CustomList" asp-action="AddList" asp-route-contentType="@Model.ContentType" class="btn btn-primary">Submit</button>
+</form>
+
+<div>
+  @if(@Model.CustomLists.Any())
+  {
+    <p> Your Custom Lists: </p>
+    @foreach (var userList in Model.CustomLists)
+    {
+      <p><a asp-controller="@userList.ListType" asp-action="Get" asp-route-contentType="@userList.ContentType" asp-route-listName="@userList.Name">@userList.Name</a></p>
+    }
+  }
+</div>

@@ -1,0 +1,52 @@
+﻿.positionInput {
+  background-color: black;
+  color: white;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  margin-top: 30px;
+  margin-left: 10px;
+  border: 3px inset #1B1B5B;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.posterColumn
+{
+  width: 230px;
+  height: 110px;
+}
+
+.positionColumn {
+  width: 70px;
+  height: auto;
+}
+
+.form-select-sm {
+  width: 150px;
+  height: auto;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border: 3px inset #1B1B5B;
+  border-radius: 6px;
+  margin-top: 30px;
+}
+
+.notifColumn {
+  width: 200px;
+  height: auto;
+}
+
+.labelCommonColumn {
+  text-align: center;
+  margin-top: 35px;
+}
+
+.labelIdColumn {
+  width: 50px;
+}
+
+.labelAddedColumn {
+  width: 100px;
+}
