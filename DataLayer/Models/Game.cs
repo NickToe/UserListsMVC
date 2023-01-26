@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-using UserListsMVC.Json;
+﻿using UserListsMVC.Json;
 
 namespace UserListsMVC.DataLayer.Models;
 
@@ -9,7 +7,7 @@ public record Game
   public string Id { get; set; } = null!;
   public string Title { get; set; } = null!;
   public List<string>? Developers { get; set; }
-  public ICollection<GameGenre>? Genres { get; set; }
+  public List<string>? Genres { get; set; }
   public string? PosterLink { get; set; }
   public short? MetacriticScore { get; set; }
   public string? MetacriticUrl { get; set; }
@@ -23,24 +21,23 @@ public record Game
   public int? TotalNegative { get; set; }
   public int? TotalReviews { get; set; }
 
-  public static Game JsonToModel(GameJson gameJson) =>
-     new Game()
-     {
-       Id = gameJson.Id.ToString(),
-       Title = gameJson.Title,
-       Type = gameJson.Type,
-       PosterLink = gameJson.PosterLink,
-       ShortDescription = gameJson.ShortDescription,
-       Genres = GameGenre.JsonsToModels(gameJson.Genres).ToList(),
-       Developers = gameJson.Developers.ToList(),
-       Publishers = gameJson.Publishers.ToList(),
-       ComingSoon = gameJson.ComingSoon,
-       ReleaseDate = gameJson.ReleaseDate,
-       MetacriticScore = gameJson.MetacriticScore,
-       MetacriticUrl = gameJson.MetacriticUrl,
-       ReviewScore = gameJson.ReviewScore,
-       TotalPositive = gameJson.TotalPositive,
-       TotalNegative = gameJson.TotalNegative,
-       TotalReviews = gameJson.TotalReviews,
-     };
+  public static Game JsonToModel(GameJson gameJson) => new()
+  {
+    Id = gameJson.Id,
+    Title = gameJson.Title,
+    Type = gameJson.Type,
+    PosterLink = gameJson.Poster,
+    ShortDescription = gameJson.ShortDescription,
+    Genres = gameJson?.Genres?.ToList(),
+    Developers = gameJson?.Developers?.ToList(),
+    Publishers = gameJson?.Publishers?.ToList(),
+    ComingSoon = gameJson?.ComingSoon,
+    ReleaseDate = gameJson?.ReleaseDate,
+    MetacriticScore = gameJson?.MetacriticScore,
+    MetacriticUrl = gameJson?.MetacriticUrl,
+    ReviewScore = gameJson?.ReviewScore,
+    TotalPositive = gameJson?.TotalPositive,
+    TotalNegative = gameJson?.TotalNegative,
+    TotalReviews = gameJson?.TotalReviews,
+  };
 }

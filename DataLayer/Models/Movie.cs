@@ -24,27 +24,26 @@ public record Movie
   public string? ImdbRatingVotes { get; set; }
   public string? MetascriticRating { get; set; }
 
-  public static Movie JsonToModel(MovieJson movieJson) =>
-    new Movie()
-    {
-      Id = movieJson.Id,
-      Title= movieJson.Title,
-      FullTitle= movieJson.FullTitle,
-      Year = movieJson.Year,
-      Type = movieJson.Type,
-      PosterLink = movieJson.PosterLink,
-      ReleaseDate= movieJson.ReleaseDate,
-      RuntimeMins= movieJson.RuntimeMins,
-      RuntimeStr= movieJson.RuntimeStr,
-      Plot = movieJson.Plot,
-      Directors= movieJson.Directors,
-      Stars= movieJson.Stars,
-      Genres= movieJson.Genres,
-      Companies = movieJson.Companies,
-      Countries = movieJson.Countries,
-      ContentRating= movieJson.ContentRating,
-      ImdbRating= movieJson.ImdbRating,
-      ImdbRatingVotes= movieJson.ImdbRatingVotes,
-      MetascriticRating= movieJson.MetascriticRating,
-    };
+  public static Movie JsonToModel(MovieJson movieJson) => new()
+  {
+    Id = movieJson.Id,
+    Title = movieJson.Title,
+    FullTitle = movieJson.FullTitle,
+    Year = movieJson.Year,
+    Type = movieJson.Type,
+    PosterLink = movieJson.Poster,
+    ReleaseDate = movieJson.ReleaseDate,
+    RuntimeMins = movieJson.RuntimeMins,
+    RuntimeStr = movieJson.RuntimeStr,
+    Plot = movieJson.Plot,
+    Directors = movieJson.Directors,
+    Stars = movieJson.Stars,
+    Genres = movieJson.Genres,
+    Companies = movieJson.Companies,
+    Countries = movieJson.Countries,
+    ContentRating = movieJson.ContentRating,
+    ImdbRating = movieJson.ImdbRating,
+    ImdbRatingVotes = movieJson.ImdbRatingVotes,
+    MetascriticRating = movieJson.MetascriticRating,
+  };
 }

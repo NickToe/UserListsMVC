@@ -19,8 +19,8 @@ public record MovieJson
   [JsonPropertyName("year")]
   public string? Year { get; set; }
 
-  [JsonPropertyName("posterImage")]
-  public string PosterLink { get; set; } = null!;
+  [JsonPropertyName("poster")]
+  public string Poster { get; set; } = null!;
 
   [JsonPropertyName("releaseDate")]
   public string? ReleaseDate { get; set; }

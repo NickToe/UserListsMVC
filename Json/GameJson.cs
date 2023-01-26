@@ -1,12 +1,11 @@
 ﻿using System.Text.Json.Serialization;
-using UserListsMVC.Json;
 
 namespace UserListsMVC.Json;
 
 public record GameJson
 {
   [JsonPropertyName("id")]
-  public int Id { get; set; }
+  public string Id { get; set; } = null!;
 
   [JsonPropertyName("title")]
   public string Title { get; set; } = null!;
@@ -14,14 +13,14 @@ public record GameJson
   [JsonPropertyName("type")]
   public string Type { get; set; } = null!;
 
-  [JsonPropertyName("headerImage")]
-  public string PosterLink { get; set; } = null!;
+  [JsonPropertyName("poster")]
+  public string Poster { get; set; } = null!;
 
   [JsonPropertyName("shortDescription")]
   public string ShortDescription { get; set; } = null!;
 
   [JsonPropertyName("genres")]
-  public ICollection<GameGenreJson>? Genres { get; set; }
+  public ICollection<string>? Genres { get; set; }
 
   [JsonPropertyName("developers")]
   public ICollection<string>? Developers { get; set; }
