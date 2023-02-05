@@ -1,0 +1,36 @@
+﻿@model GetItemPageViewModel<Movie>
+
+<div>
+  <p> Poster:           @Model.Item.PosterLink </p>
+  <p> Id:               @Model.Item.Id </p>
+  <p> Title:            @Model.Item.FullTitle </p>
+  <p> Runtime:          @Model.Item.RuntimeStr </p>
+  <p> Content Rating:   @Model.Item.ContentRating </p>
+  <p> Plot:             @Model.Item.Plot </p>
+  <p> Actors:           @Model.Item.Stars </p>
+  <p> Companies:        @Model.Item.Companies </p>
+  <p> Countries:        @Model.Item.Countries </p>
+  <p> Genres:           @Model.Item.Genres </p>
+  <p> Directors:        @Model.Item.Directors </p>
+  <p> Release Date:     @Model.Item.ReleaseDate </p>
+  <p> IMDB Rating:         @Model.Item.ImdbRating </p>
+  <p> IMDB Votes:          @Model.Item.ImdbRatingVotes </p>
+  <p> Metacritic Rating:   @Model.Item.MetascriticRating </p>
+</div>
+
+<div>
+  <div>
+    <a asp-controller="ItemInfo" asp-action="UpdateVote" asp-route-itemId="@Model.ItemInfo.ItemId" asp-route-personalVote="@PersonalVote.Like"><img src="~/images/like.png" alt="like icon" width="35" height="35" /></a>
+    @Model.ItemInfo.Votes.Count(item => item.PersonalVote == PersonalVote.Like)
+  </div>
+  <div>
+    <a asp-controller="ItemInfo" asp-action="UpdateVote" asp-route-itemId="@Model.ItemInfo.ItemId" asp-route-personalVote="@PersonalVote.Dislike"><img src="~/images/dislike.png" alt="dislike icon" width="35" height="35" /></a>
+    @Model.ItemInfo.Votes.Count(item => item.PersonalVote == PersonalVote.Dislike)
+  </div>
+</div>
+
+<partial name="_CommentsPartial" model="@Model.ItemInfo"/>
+
+<div>
+  <p>Page Views: @Model.ItemInfo.PageViewCounter.Counter</p>
+</div>

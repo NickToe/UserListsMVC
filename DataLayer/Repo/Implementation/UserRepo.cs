@@ -1,25 +1,26 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using UserListsMVC.DataLayer;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.Extensions.Logging;
+using UserListsMVC.DataLayer.Repo.Interface;
 
-namespace UserListsMVC.DataLayer.Repo;
+namespace UserListsMVC.DataLayer.Repo.Implementation;
 
 public class UserRepo : IUserRepo
 {
   private readonly ILogger<UserRepo> _logger;
   private readonly UserManager<ApplicationUser> _userManager;
   public UserRepo(ILogger<UserRepo> logger, UserManager<ApplicationUser> userManager)
-	{
+  {
     _logger = logger;
     _userManager = userManager;
-	}
+  }
 
   public async Task<IEnumerable<ApplicationUser>> GetAllByUserName(string userName) =>
     await _userManager.Users.Where(item => item.UserName.ToLower().Contains(userName.ToLower())).ToListAsync();
 
   public async Task<IEnumerable<ApplicationUser>> GetAll() =>
-    await _userManager.Users.ToListAsync();
+    await _userManager.Users.AsNoTracking().ToListAsync();
 
   public async Task<ApplicationUser> Get(ClaimsPrincipal? claimsUser) =>
     await _userManager.GetUserAsync(claimsUser) ?? throw new Exception($"User {claimsUser?.Identity?.Name} was not found");
@@ -58,4 +59,12 @@ public class UserRepo : IUserRepo
     ArgumentNullException.ThrowIfNull(claimsUser, nameof(claimsUser));
     return _userManager.GetUserName(claimsUser);
   }
+
+  public string GetId(ClaimsPrincipal? claimsUser)
+  {
+    ArgumentNullException.ThrowIfNull(claimsUser, nameof(claimsUser));
+    return _userManager.GetUserId(claimsUser);
+  }
+
+  public async Task<string> GetUserName(string id) => await _userManager.Users.Where(user => user.Id == id).Select(user => user.UserName).SingleOrDefaultAsync() ?? "Not Found";
 }

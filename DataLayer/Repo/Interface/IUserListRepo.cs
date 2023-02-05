@@ -1,8 +1,7 @@
-﻿using UserListsMVC.DataLayer;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using UserListsMVC.DataLayer.Entities;
 
-namespace UserListsMVC.DataLayer.Repo;
+namespace UserListsMVC.DataLayer.Repo.Interface;
 
 public interface IUserListRepo<T> where T : UserListItemBase
 {

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using UserListsMVC.DataLayer.Repo.Interface;
 
-namespace UserListsMVC.DataLayer.Repo;
+namespace UserListsMVC.DataLayer.Repo.Implementation;
 
 public class FollowlistRepo : UserListBaseRepo<FollowlistItem>, IUserListRepo<FollowlistItem>
 {

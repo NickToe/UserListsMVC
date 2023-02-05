@@ -1,0 +1,109 @@
+﻿@inject IUserRepo userRepo
+@model ItemInfo
+
+@if (Model.Comments.Any())
+{
+  <div class="container">
+    <h2>Comments</h2>
+    @foreach (var comment in Model.Comments)
+    {
+      <div>
+        <h3> @await userRepo.GetUserName(comment.ApplicationUserId) </h3>
+        <span> @comment.Timestamp</span>
+        @if (comment.isEdited)
+        {
+          <span>(edited)</span>
+        }
+        <br>
+        <p> @comment.Message </p>
+      </div>
+
+      <div>
+        <div>
+          <a asp-controller="ItemInfo" asp-action="UpdateCommentVote" asp-route-commentId="@comment.CommentId" asp-route-personalVote="@PersonalVote.Like"><img src="~/images/like.png" alt="like icon" width="30" height="30" /></a>
+          @comment.CommentVotes.Count(vote => vote.PersonalVote == PersonalVote.Like)
+        </div>
+        <div>
+          <a asp-controller="ItemInfo" asp-action="UpdateCommentVote" asp-route-commentId="@comment.CommentId" asp-route-personalVote="@PersonalVote.Dislike"><img src="~/images/dislike.png" alt="dislike icon" width="30" height="30" /></a>
+          @comment.CommentVotes.Count(vote => vote.PersonalVote == PersonalVote.Dislike)
+        </div>
+      </div>
+
+      @if (comment.ApplicationUserId == userRepo.GetId(User))
+      {
+        <a asp-controller="ItemInfo" asp-action="RemoveComment" asp-route-commentId="@comment.CommentId"><img src="~/images/remove.png" alt="like icon" width="30" height="30" /></a>
+        <a onclick="getElementById('editCommentTextArea_@comment.CommentId').hidden = !getElementById('editCommentTextArea_@comment.CommentId').hidden"><img src="~/images/update.png" alt="like icon" width="30" height="30" /></a>
+
+        <div id="editCommentTextArea_@comment.CommentId" hidden>
+          <form method="get" asp-controller="ItemInfo" asp-action="EditComment">
+            <input type="hidden" name="commentId" value="@comment.CommentId" />
+            <textarea name="commentText" required>@comment.Message</textarea>
+            <br>
+            <input type="submit" value="Update">
+          </form>
+        </div>
+      }
+
+      <button class="btnReply" onclick="getElementById('replyTextArea_@comment.CommentId').hidden = !getElementById('replyTextArea_@comment.CommentId').hidden">Reply</button>
+
+      <div id="replyTextArea_@comment.CommentId" hidden>
+        <form method="get" asp-controller="ItemInfo" asp-action="AddReply">
+          <input type="hidden" name="commentId" value="@comment.CommentId" />
+          <textarea class="reply" placeholder="Type your reply here." name="replyText" required></textarea>
+          <br>
+          <input type="submit" value="Send">
+        </form>
+      </div>
+
+      <div class="container">
+        @foreach (var reply in comment.Replies)
+        {
+          <div>
+            <p> Reply: </p>
+            <h5> @await userRepo.GetUserName(reply.ApplicationUserId) </h5>
+            <span> @reply.Timestamp </span>
+            @if (reply.isEdited)
+            {
+              <span>(edited)</span>
+            }
+            <br>
+            <p> @reply.Message </p>
+          </div>
+          <div>
+            <div>
+              <a asp-controller="ItemInfo" asp-action="UpdateReplyVote" asp-route-replyId="@reply.ReplyId" asp-route-personalVote="@PersonalVote.Like"><img src="~/images/like.png" alt="like icon" width="30" height="30" /></a>
+              @reply.ReplyVotes.Count(vote => vote.PersonalVote == PersonalVote.Like)
+            </div>
+            <div>
+              <a asp-controller="ItemInfo" asp-action="UpdateReplyVote" asp-route-replyId="@reply.ReplyId" asp-route-personalVote="@PersonalVote.Dislike"><img src="~/images/dislike.png" alt="dislike icon" width="30" height="30" /></a>
+              @reply.ReplyVotes.Count(vote => vote.PersonalVote == PersonalVote.Dislike)
+            </div>
+          </div>
+          @if (reply.ApplicationUserId == userRepo.GetId(User))
+          {
+            <a asp-controller="ItemInfo" asp-action="RemoveReply" asp-route-replyId="@reply.ReplyId"><img src="~/images/remove.png" alt="like icon" width="30" height="30" /></a>
+            <a onclick="getElementById('editReplyTextArea_@reply.ReplyId').hidden = !getElementById('editReplyTextArea_@reply.ReplyId').hidden"><img src="~/images/update.png" alt="like icon" width="30" height="30" /></a>
+
+            <div id="editReplyTextArea_@reply.ReplyId" hidden>
+              <form method="get" asp-controller="ItemInfo" asp-action="EditReply">
+                <input type="hidden" name="replyId" value="@reply.ReplyId" />
+                <textarea name="replyText" required>@reply.Message</textarea>
+                <br>
+                <input type="submit" value="Update">
+              </form>
+            </div>
+          }
+        }
+      </div>
+    }
+  </div>
+}
+
+<div>
+  <form method="get" asp-controller="ItemInfo" asp-action="AddComment">
+    <input type="hidden" name="itemInfoId" value="@Model.ItemInfoId" />
+    <textarea class="comment" placeholder="Type your comment here." name="commentText" required></textarea>
+    <br>
+    <input type="submit" value="Send">
+  </form>
+</div>

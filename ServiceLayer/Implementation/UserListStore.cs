@@ -1,7 +1,4 @@
-﻿using UserListsMVC.DataLayer;
-using UserListsMVC.DataLayer.Entities;
-
-namespace UserListsMVC.ServiceLayer;
+﻿namespace UserListsMVC.ServiceLayer.Implementation;
 
 public interface IUserListStore
 {
@@ -23,5 +20,10 @@ public class UserListStore : IUserListStore
       { new(ContentType.Movie, UserListType.Wishlist) },
     };
     user.UserCustomLists = new HashSet<UserList<CustomListItem>>();
+    user.ItemVotes = new List<ItemVote>();
+    user.Comments = new List<Comment>();
+    user.CommentVotes = new List<CommentVote>();
+    user.Replies = new List<Reply>();
+    user.ReplyVotes = new List<ReplyVote>();
   }
 }

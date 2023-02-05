@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using UserListsMVC.Controllers;
 using UserListsMVC.DataLayer;
-using UserListsMVC.DataLayer.Repo;
 using UserListsMVC.DataLayer.ViewModels;
-using UserListsMVC.ServiceLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserListsMVC.DataLayer.Repo.Interface;
+using UserListsMVC.ServiceLayer.Interface;
 
 namespace UserListsMVC.Controllers;
 

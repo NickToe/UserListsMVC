@@ -1,8 +1,8 @@
 ﻿using UserListsMVC.Controllers;
 using UserListsMVC.DataLayer.ViewModels;
-using UserListsMVC.ServiceLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserListsMVC.ServiceLayer.Interface;
 
 namespace UserListsMVC.Controllers;
 
@@ -48,7 +48,7 @@ public class FollowlistController : Controller
   [HttpGet("{contentType}/Followlist/Add")]
   public async Task<IActionResult> Add(ContentType contentType, string poster, string itemId, string title)
   {
-    Console.WriteLine($"Adding item (id: '{itemId}', title: '{title}') to game followlist for user {User?.Identity?.Name}");
+    _logger.LogInformation($"Adding item (id: '{itemId}', title: '{title}') to game followlist for user {User?.Identity?.Name}");
     
     FollowlistItem followlistItem = new(itemId, title, poster);
     await _userListService.Add(User, contentType, _listType, followlistItem);
@@ -58,7 +58,7 @@ public class FollowlistController : Controller
   [HttpGet("{contentType}/Followlist/Remove")]
   public async Task<IActionResult> Remove(ContentType contentType, string itemId)
   {
-    Console.WriteLine($"Removing item with id '{itemId}' from game followlist for user {User?.Identity?.Name}");
+    _logger.LogInformation($"Removing item with id '{itemId}' from game followlist for user {User?.Identity?.Name}");
     await _userListService.Remove(User, contentType, _listType, itemId);
     return Redirect(Request.Headers["Referer"].ToString());
   }
@@ -66,7 +66,7 @@ public class FollowlistController : Controller
   [HttpGet("{contentType}/Followlist/Update")]
   public async Task<IActionResult> Update(ContentType contentType, FollowlistUpdateModel followlistUpdateModel)
   {
-    Console.WriteLine($"UpdateInFollowlist(): {followlistUpdateModel} {User?.Identity?.Name}");
+    _logger.LogInformation($"UpdateInFollowlist(): {followlistUpdateModel} {User?.Identity?.Name}");
 
     FollowlistItem item = new(followlistUpdateModel);
     await _userListService.Update(User, contentType, _listType, item);

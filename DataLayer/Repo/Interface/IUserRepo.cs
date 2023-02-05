@@ -1,7 +1,6 @@
-﻿using UserListsMVC.DataLayer;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
-namespace UserListsMVC.DataLayer.Repo;
+namespace UserListsMVC.DataLayer.Repo.Interface;
 
 public interface IUserRepo
 {
@@ -13,4 +12,6 @@ public interface IUserRepo
   public Task<bool> Update(string userName);
   public Task<bool> Update(ApplicationUser user);
   public string GetUserName(ClaimsPrincipal? claimsUser);
+  public Task<string> GetUserName(string id);
+  public string GetId(ClaimsPrincipal? claimsUser);
 }

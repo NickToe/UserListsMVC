@@ -27,7 +27,7 @@
         <th scope="row" class="positionColumn"><input type="text" class="positionInput" name="position" value="@item.Position" disabled></th>
         <td class="posterColumn"><img class="img-fluid" src="@item.ItemPoster" alt="@item.ItemTitle poster"/></td>
         <td><label class="labelCommonColumn">@item.ItemId</label></td>
-        <td><label class="labelCommonColumn">@item.ItemTitle</label></td>
+        <td><a asp-controller="@Model.UserList.ContentType" asp-route-itemId="@item.ItemId" asp-action="Get"><label class="labelCommonColumn">@item.ItemTitle</label></a></td>
         <td><label class="labelCommonColumn">@item.DateAdded</label></td>
         <td><label class="labelCommonColumn">@item.PlannedDate</label></td>
         <td><label class="labelCommonColumn">@item.StartedDate </label></td>

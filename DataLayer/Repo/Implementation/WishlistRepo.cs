@@ -1,9 +1,9 @@
-﻿using UserListsMVC.DataLayer;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UserListsMVC.DataLayer.Entities;
+using UserListsMVC.DataLayer.Repo.Interface;
 
-namespace UserListsMVC.DataLayer.Repo;
+namespace UserListsMVC.DataLayer.Repo.Implementation;
 
 public class WishlistRepo : UserListBaseRepo<WishlistItem>, IUserListRepo<WishlistItem>
 {

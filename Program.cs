@@ -1,11 +1,13 @@
 using UserListsMVC.DataLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using UserListsMVC.ServiceLayer;
-using UserListsMVC.DataLayer.Repo;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using UserListsMVC.ApiLayer;
+using UserListsMVC.DataLayer.Repo.Interface;
+using UserListsMVC.DataLayer.Repo.Implementation;
+using UserListsMVC.ServiceLayer.Interface;
+using UserListsMVC.ServiceLayer.Implementation;
 
 namespace UserListsMVC;
 
@@ -68,6 +70,20 @@ public class Program
     builder.Services.AddScoped<IUserListRepo<FollowlistItem>, FollowlistRepo>();
     builder.Services.AddScoped<IUserListRepo<WishlistItem>, WishlistRepo>();
     builder.Services.AddScoped<IUserListRepo<CustomListItem>, CustomListRepo>();
+
+    builder.Services.AddScoped<IItemInfoService, ItemInfoService>();
+
+    builder.Services.AddScoped<IItemInfoRepo, ItemInfoRepo>();
+    builder.Services.AddScoped<ITextRepo<Comment>, CommentRepo>();
+    builder.Services.AddScoped<ITextRepo<Reply>, ReplyRepo>();
+
+    builder.Services.AddScoped<IVoteRepo<ItemVote>, ItemVoteRepo>();
+    builder.Services.AddScoped<IVoteRepo<ReplyVote>, ReplyVoteRepo>();
+    builder.Services.AddScoped<IVoteRepo<CommentVote>, CommentVoteRepo>();
+
+    builder.Services.AddScoped<IViewCounterRepo, ViewCounterRepo>();
+
+    AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
     var app = builder.Build();
 
