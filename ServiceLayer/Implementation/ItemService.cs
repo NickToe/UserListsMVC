@@ -1,6 +1,7 @@
 ﻿using UserListsMVC.ApiLayer;
+using UserListsMVC.ServiceLayer.Interface;
 
-namespace UserListsMVC.ServiceLayer;
+namespace UserListsMVC.ServiceLayer.Implementation;
 
 public class ItemService<T> : IItemService<T>
 {
@@ -10,6 +11,7 @@ public class ItemService<T> : IItemService<T>
     _webApi = webApi;
   }
 
+  public async Task<T> GetById(string id) => await _webApi.GetItemById(id);
   public async Task<IEnumerable<T>> GetByName(string title) => await _webApi.GetItemsByTitle(title);
   public async Task<IEnumerable<T>> GetByIds(IEnumerable<string> ids) => await _webApi.GetItemsByIds(ids);
 }

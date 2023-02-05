@@ -17,7 +17,8 @@ public class WebApiMovie : WebApiBase<MovieJson>, IWebApi<Movie>
     UriBuilder uriBuilder = CopyUriBuilder();
     uriBuilder.Path = GetFullPath("ById");
     uriBuilder.Query = $"id={id}";
-    MovieJson movieJson = await GetJsonItem(_uriBuilder.Uri);
+    _logger.LogWarning("GetItemById(): id={id}, url={url}", id, _uriBuilder.Uri);
+    MovieJson movieJson = await GetJsonItem(uriBuilder.Uri);
     return Movie.JsonToModel(movieJson);
   }
 

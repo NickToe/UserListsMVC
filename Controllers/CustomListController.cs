@@ -1,7 +1,7 @@
 ﻿using UserListsMVC.DataLayer.ViewModels;
-using UserListsMVC.ServiceLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserListsMVC.ServiceLayer.Interface;
 
 namespace UserListsMVC.Controllers;
 
@@ -46,7 +46,7 @@ public class CustomListController : Controller
   [HttpGet("{contentType}/{listName}/Add")]
   public async Task<IActionResult> Add(ContentType contentType, string listName, string poster, string itemId, string title)
   {
-    Console.WriteLine($"Adding item (id: '{itemId}', title: '{title}') to game followlist for user {User?.Identity?.Name}");
+    _logger.LogInformation($"Adding item (id: '{itemId}', title: '{title}') to game followlist for user {User?.Identity?.Name}");
 
     CustomListItem customListItem = new(itemId, title, poster);
     await _userListService.Add(User, listName, customListItem);
@@ -56,7 +56,7 @@ public class CustomListController : Controller
   [HttpGet("{contentType}/{listName}/Remove")]
   public async Task<IActionResult> Remove(ContentType contentType, string listName, string itemId)
   {
-    Console.WriteLine($"Removing item with id '{itemId}' from game followlist for user {User?.Identity?.Name}");
+    _logger.LogInformation($"Removing item with id '{itemId}' from game followlist for user {User?.Identity?.Name}");
     await _userListService.Remove(User, listName, itemId);
     return Redirect(Request.Headers["Referer"].ToString());
   }
@@ -64,7 +64,7 @@ public class CustomListController : Controller
   [HttpGet("{contentType}/{listName}/Update")]
   public async Task<IActionResult> Update(ContentType contentType, string listName, CustomListUpdateModel customListUpdateModel)
   {
-    Console.WriteLine($"Update(): {customListUpdateModel} {User?.Identity?.Name}");
+    _logger.LogInformation($"Update(): {customListUpdateModel} {User?.Identity?.Name}");
 
     CustomListItem item = new(customListUpdateModel);
     await _userListService.Update(User, listName, item);

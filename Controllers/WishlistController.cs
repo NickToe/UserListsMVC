@@ -1,7 +1,7 @@
 ﻿using UserListsMVC.DataLayer.ViewModels;
-using UserListsMVC.ServiceLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserListsMVC.ServiceLayer.Interface;
 
 namespace UserListsMVC.Controllers;
 
@@ -44,7 +44,7 @@ public class WishlistController : Controller
   [HttpGet("{contentType}/Wishlist/Add")]
   public async Task<IActionResult> Add(ContentType contentType, string poster, string itemId, string title)
   {
-    Console.WriteLine($"Adding item with id '{itemId}' to game wishlist for user {User?.Identity?.Name}");
+    _logger.LogInformation($"Adding item with id '{itemId}' to game wishlist for user {User?.Identity?.Name}");
     WishlistItem followlistItem = new(itemId, title, poster);
     await _userListService.Add(User, contentType, _listType, followlistItem);
     return Redirect(Request.Headers["Referer"].ToString());
@@ -53,7 +53,7 @@ public class WishlistController : Controller
   [HttpGet("{contentType}/Wishlist/Remove")]
   public async Task<IActionResult> Remove(ContentType contentType, string itemId)
   {
-    Console.WriteLine($"Removing item with id '{itemId}' from game wishlist for user {User?.Identity?.Name}");
+    _logger.LogInformation($"Removing item with id '{itemId}' from game wishlist for user {User?.Identity?.Name}");
     await _userListService.Remove(User, contentType, _listType, itemId);
     return Redirect(Request.Headers["Referer"].ToString());
   }

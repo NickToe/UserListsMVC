@@ -1,7 +1,8 @@
 ﻿using System.Security.Claims;
-using UserListsMVC.DataLayer.Repo;
+using UserListsMVC.DataLayer.Repo.Interface;
+using UserListsMVC.ServiceLayer.Interface;
 
-namespace UserListsMVC.ServiceLayer;
+namespace UserListsMVC.ServiceLayer.Implementation;
 
 public class UserListService<T> : IUserListService<T> where T : UserListItemBase
 {
@@ -103,7 +104,7 @@ public class UserListService<T> : IUserListService<T> where T : UserListItemBase
 
   public async Task RemoveList(string userName, string listName)
   {
-    if(await _userListRepo.RemoveList(userName, listName)) await _userRepo.Update(userName);
+    if (await _userListRepo.RemoveList(userName, listName)) await _userRepo.Update(userName);
   }
 
   // GetLists block
@@ -112,6 +113,7 @@ public class UserListService<T> : IUserListService<T> where T : UserListItemBase
 
   public async Task<ISet<UserList<T>>> GetLists(string userName, ContentType contentType = ContentType.None)
   {
+    if (string.IsNullOrEmpty(userName)) return new HashSet<UserList<T>>();
     var userLists = await _userListRepo.GetLists(userName);
     return contentType == ContentType.None ? userLists : userLists.Where(list => list.ContentType == contentType).ToHashSet();
   }

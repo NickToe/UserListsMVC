@@ -51,7 +51,7 @@
       <th scope="row" class="positionColumn"><input type="number" min="1" class="positionInput" name="position" value="@item.Position"></th>
       <td class="posterColumn"><img class="img-fluid" src="@item.ItemPoster" alt="@item.ItemTitle poster"/></td>
       <td><label class="labelCommonColumn">@item.ItemId</label></td>
-      <td><label class="labelCommonColumn">@item.ItemTitle</label></td>
+      <td><a asp-controller="@Model.UserList.ContentType" asp-route-itemId="@item.ItemId" asp-action="Get"><label class="labelCommonColumn">@item.ItemTitle</label></a></td>
       <td><label class="labelCommonColumn">@item.DateAdded</label></td>
       <td><input type="date" name="plannedDate" class="editableElem" value="@item.PlannedDate.ToString("yyyy-MM-dd")"></td>
       <td><input type="date" name="startedDate" class="editableElem" value="@item.StartedDate.ToString("yyyy-MM-dd")"></td>
@@ -59,19 +59,20 @@
       <td>
         <select class="form-select form-select-sm editableElem" aria-label=".form-select-sm" name="itemStatus">
         <option selected value="@item.ItemStatus">@item.ItemStatus</option>
-        <option value="@ItemStatus.NotStarted">@ItemStatus.NotStarted.ToString()</option> 
-        <option value="@ItemStatus.Planned">@ItemStatus.Planned.ToString()</option>
-        <option value="@ItemStatus.Ongoing">@ItemStatus.Ongoing.ToString()</option>
-        <option value="@ItemStatus.Finished">@ItemStatus.Finished.ToString()</option>
+        <option value="@ItemStatus.NotStarted">@ItemStatus.NotStarted</option> 
+        <option value="@ItemStatus.Planned">@ItemStatus.Planned</option>
+        <option value="@ItemStatus.Ongoing">@ItemStatus.Ongoing</option>
+        <option value="@ItemStatus.Finished">@ItemStatus.Finished</option>
         </select>
       </td>
       <td><input type="number" min="0" max="10" class="positionInput" name="personalScore" value="@item.PersonalScore"></td>
       <td>
         <select class="form-select form-select-sm editableElem" aria-label=".form-select-sm" name="personalVote">
         <option selected value="@item.PersonalVote">@item.PersonalVote</option>
-        <option value="@PersonalVote.None"> &#128064 @PersonalVote.None.ToString()</option> 
-        <option value="@PersonalVote.Dislike">&#128078 @PersonalVote.Dislike.ToString()</option>
-        <option value="@PersonalVote.Like">&#128077 @PersonalVote.Like.ToString()</option>
+        <option value="@PersonalVote.None"> &#128064 @PersonalVote.None</option>
+        <option value="@PersonalVote.Neutral"> @PersonalVote.Neutral</option>
+        <option value="@PersonalVote.Dislike">&#128078 @PersonalVote.Dislike</option>
+        <option value="@PersonalVote.Like">&#128077 @PersonalVote.Like</option>
         </select>
       </td>
       <td>

@@ -1,0 +1,46 @@
+﻿@model GetItemPageViewModel<Game>
+
+<div>
+  <p> Poster:       @Model.Item.PosterLink </p>
+  <p> Id:           @Model.Item.Id </p>
+  <p> Title:        @Model.Item.Title </p>
+  <p> Publishers:   @String.Join(",", Model.Item.Publishers) </p>
+  <p> Developers:   @String.Join(",", Model.Item.Developers) </p>
+  <p> Genres:       @String.Join(",", Model.Item.Genres) </p>
+  <p> Description:  @Model.Item.ShortDescription </p>
+  @if (@Model.Item.ComingSoon == true)
+  {
+    <p> Coming soon!</p>
+  }
+  else
+  {
+    <p> Release Date: @Model.Item.ReleaseDate </p>
+  }
+  @if (@Model.Item.MetacriticScore != default)
+  {
+    <p> Metacritic Score: @Model.Item.MetacriticScore </p>
+    <p> Metacritic Url:   @Model.Item.MetacriticUrl </p>
+  }
+  <p> Review Score: @Model.Item.ReviewScore </p>
+  <p> Reviews:      @Model.Item.TotalReviews </p>
+  <p> Negative:     @Model.Item.TotalNegative </p>
+  <p> Positive:     @Model.Item.TotalPositive </p>
+</div>
+
+<div>
+  <div>
+    <a asp-controller="ItemInfo" asp-action="UpdateVote" asp-route-itemInfoId="@Model.ItemInfo.ItemInfoId" asp-route-personalVote="@PersonalVote.Like"><img src="~/images/like.png" alt="like icon" width="40" height="40" /></a>
+    @Model.ItemInfo.Votes.Count(item => item.PersonalVote == PersonalVote.Like)
+  </div>
+  <div>
+    <a asp-controller="ItemInfo" asp-action="UpdateVote" asp-route-itemInfoId="@Model.ItemInfo.ItemInfoId" asp-route-personalVote="@PersonalVote.Dislike"><img src="~/images/dislike.png" alt="dislike icon" width="40" height="40" /></a>
+    @Model.ItemInfo.Votes.Count(item => item.PersonalVote == PersonalVote.Dislike)
+  </div>
+</div>
+
+<partial name="_CommentsPartial" model="@Model.ItemInfo"/>
+
+<!-- View counter updated every 30(?) seconds using SignalR(?) and when page is clicked-->
+<div>
+  <p>Page Views: @Model.ItemInfo.PageViewCounter.Counter</p>
+</div>
