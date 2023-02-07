@@ -38,9 +38,13 @@
   </div>
 </div>
 
-<partial name="_CommentsPartial" model="@Model.ItemInfo"/>
+@{
+  ViewData["itemId"] = Model.Item.Id;
+  ViewData["itemTitle"] = Model.Item.Title;
+  ViewData["itemContentType"] = ContentType.Game;
+}
+<partial name="_CommentsPartial" model="@Model.ItemInfo" view-data="@ViewData" />
 
-<!-- View counter updated every 30(?) seconds using SignalR(?) and when page is clicked-->
 <div>
   <p>Page Views: @Model.ItemInfo.PageViewCounter.Counter</p>
 </div>

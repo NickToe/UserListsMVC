@@ -8,6 +8,7 @@ using UserListsMVC.DataLayer.Repo.Interface;
 using UserListsMVC.DataLayer.Repo.Implementation;
 using UserListsMVC.ServiceLayer.Interface;
 using UserListsMVC.ServiceLayer.Implementation;
+using UserListsMVC.Events;
 
 namespace UserListsMVC;
 
@@ -82,6 +83,12 @@ public class Program
     builder.Services.AddScoped<IVoteRepo<CommentVote>, CommentVoteRepo>();
 
     builder.Services.AddScoped<IViewCounterRepo, ViewCounterRepo>();
+
+    builder.Services.AddScoped<INotificationService, NotificationService>();
+
+    builder.Services.AddScoped<IEventProcessor, EventProcessor>();
+
+    builder.Services.AddHostedService<DailyHostedService>();
 
     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 

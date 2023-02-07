@@ -28,6 +28,9 @@ public class UserList<T> where T : UserListItemBase
 
   public ICollection<T> UserListItems { get; set; } = null!;
 
+  public string ApplicationUserId { get; set; }
+  public ApplicationUser ApplicationUser { get; set; }
+
   public int Count => UserListItems.Count;
   public bool Any(string itemId) => UserListItems.Any(item => item.ItemId == itemId);
   public T? Find(string itemId) => UserListItems.FirstOrDefault(item => item.ItemId == itemId);

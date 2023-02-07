@@ -1,6 +1,6 @@
-﻿using System.Security.Claims;
-using UserListsMVC.DataLayer.Entities;
+﻿using UserListsMVC.DataLayer.Entities;
 using UserListsMVC.DataLayer.Repo.Interface;
+using UserListsMVC.Events;
 using UserListsMVC.ServiceLayer.Interface;
 
 namespace UserListsMVC.ServiceLayer.Implementation;
@@ -9,24 +9,26 @@ public class ItemInfoService : IItemInfoService
 {
   private readonly ILogger<ItemInfoService> _logger;
   private readonly IItemInfoRepo _itemInfoRepo;
-  private readonly IUserRepo _userRepo;
   private readonly ITextRepo<Comment> _commentRepo;
   private readonly ITextRepo<Reply> _replyRepo;
   private readonly IVoteRepo<ItemVote> _itemVoteRepo;
   private readonly IVoteRepo<CommentVote> _commentVoteRepo;
   private readonly IVoteRepo<ReplyVote> _replyVoteRepo;
   private readonly IViewCounterRepo _viewCounterRepo;
-  public ItemInfoService(ILogger<ItemInfoService> logger, IItemInfoRepo itemInfoRepo, IUserRepo userRepo, ITextRepo<Comment> commentRepo, IVoteRepo<ItemVote> itemVoteRepo, ITextRepo<Reply> replyRepo, IVoteRepo<CommentVote> commentVoteRepo, IVoteRepo<ReplyVote> replyVoteRepo, IViewCounterRepo viewCounterRepo)
+  private readonly IEventProcessor _eventProcessor;
+  private readonly IServiceProvider _serviceProvider;
+  public ItemInfoService(ILogger<ItemInfoService> logger, IItemInfoRepo itemInfoRepo, ITextRepo<Comment> commentRepo, IVoteRepo<ItemVote> itemVoteRepo, ITextRepo<Reply> replyRepo, IVoteRepo<CommentVote> commentVoteRepo, IVoteRepo<ReplyVote> replyVoteRepo, IViewCounterRepo viewCounterRepo, IEventProcessor eventProcessor, IServiceProvider serviceProvider)
   {
     _logger = logger;
     _itemInfoRepo = itemInfoRepo;
-    _userRepo = userRepo;
     _commentRepo = commentRepo;
     _itemVoteRepo = itemVoteRepo;
     _replyRepo = replyRepo;
     _commentVoteRepo = commentVoteRepo;
     _replyVoteRepo = replyVoteRepo;
     _viewCounterRepo = viewCounterRepo;
+    _eventProcessor = eventProcessor;
+    _serviceProvider = serviceProvider;
   }
 
   public async Task<ItemInfo> Get(string itemId, string userId)
@@ -57,9 +59,8 @@ public class ItemInfoService : IItemInfoService
     return _viewCounterRepo.GetCounter(itemInfoId);
   }
 
-  public async Task UpdateItemVote(ClaimsPrincipal? claimsPrincipal, int itemInfoId, PersonalVote personalVote)
+  public async Task UpdateItemVote(string userId, int itemInfoId, PersonalVote personalVote)
   {
-    string userId = _userRepo.GetId(claimsPrincipal);
     if (!await _itemVoteRepo.Any(userId, itemInfoId))
     {
       ItemVote itemVote = new() { ApplicationUserId = userId, ItemInfoId = itemInfoId, PersonalVote = personalVote };
@@ -73,11 +74,12 @@ public class ItemInfoService : IItemInfoService
     await _itemVoteRepo.Save();
   }
 
-  public async Task AddComment(ClaimsPrincipal? claimsPrincipal, int itemInfoId, string message)
+  public async Task AddComment(NotifItem notifItem, string userId, int itemInfoId, string message)
   {
-    Comment comment = new() { ApplicationUserId = _userRepo.GetId(claimsPrincipal), ItemInfoId = itemInfoId, Message = message };
+    Comment comment = new() { ApplicationUserId = userId, ItemInfoId = itemInfoId, Message = message };
     await _commentRepo.Add(comment);
     await _commentRepo.Save();
+    _eventProcessor.AddEvent(new CommentAddedEvent(_serviceProvider, new(String.Empty, userId, notifItem.ItemId, notifItem.ItemTitle, notifItem.ItemContentType, comment.CommentId, comment.Message, comment.Timestamp)));
   }
 
   public async Task RemoveComment(int commentId)
@@ -87,11 +89,12 @@ public class ItemInfoService : IItemInfoService
     await _commentRepo.Save();
   }
 
-  public async Task AddReply(ClaimsPrincipal? claimsPrincipal, int commentId, string message)
+  public async Task AddReply(NotifItem notifItem, string userId, string userIdFor, int commentId, string message)
   {
-    Reply reply = new() { ApplicationUserId = _userRepo.GetId(claimsPrincipal), CommentId = commentId, Message = message };
+    Reply reply = new() { ApplicationUserId = userId, CommentId = commentId, Message = message };
     await _replyRepo.Add(reply);
     await _replyRepo.Save();
+    _eventProcessor.AddEvent(new ReplyAddedEvent(_serviceProvider, new(userIdFor, userId, notifItem.ItemId, notifItem.ItemTitle, notifItem.ItemContentType, reply.CommentId, reply.Message, reply.Timestamp)));
   }
 
   public async Task RemoveReply(int replyId)
@@ -101,9 +104,8 @@ public class ItemInfoService : IItemInfoService
     await _replyRepo.Save();
   }
 
-  public async Task UpdateCommentVote(ClaimsPrincipal? claimsPrincipal, int commentId, PersonalVote personalVote)
+  public async Task UpdateCommentVote(string userId, int commentId, PersonalVote personalVote)
   {
-    string userId = _userRepo.GetId(claimsPrincipal);
     if(!await _commentVoteRepo.Any(userId, commentId))
     {
       CommentVote commentVote = new() { ApplicationUserId = userId, CommentId = commentId, PersonalVote = personalVote };
@@ -117,9 +119,8 @@ public class ItemInfoService : IItemInfoService
     await _commentVoteRepo.Save();
   }
 
-  public async Task UpdateReplyVote(ClaimsPrincipal? claimsPrincipal, int replyId, PersonalVote personalVote)
+  public async Task UpdateReplyVote(string userId, int replyId, PersonalVote personalVote)
   {
-    string userId = _userRepo.GetId(claimsPrincipal);
     if (!await _replyVoteRepo.Any(userId, replyId))
     {
       ReplyVote replyVote = new() { ApplicationUserId = userId, ReplyId = replyId, PersonalVote = personalVote };
