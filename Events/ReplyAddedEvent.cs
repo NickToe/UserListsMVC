@@ -13,6 +13,5 @@ public class ReplyAddedEvent : BaseEvent
   {
     await _notificationService.AddRepliedNotifs(NotifData);
     await _notificationService.AddFollowedNotifs(NotifData);
-    Console.WriteLine("Sending notification of type {0}", typeof(ReplyAddedEvent));
   }
 }
