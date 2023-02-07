@@ -11,6 +11,5 @@ public class CommentAddedEvent : BaseEvent
   public async override Task Process()
   {
     await _notificationService.AddFollowedNotifs(NotifData);
-    Console.WriteLine("Sending notification of type {0}", typeof(CommentAddedEvent));
   }
 }

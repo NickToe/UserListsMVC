@@ -67,7 +67,6 @@ public class ItemInfoController : Controller
   [HttpGet("AddReply")]
   public async Task<IActionResult> AddReply(NotifItem notifItem, string userIdFor, int commentId, string replyText)
   {
-    _logger.LogInformation($"TEST: itemId({notifItem.ItemId}), itemTitle({notifItem.ItemTitle}), itemContentType({notifItem.ItemContentType}), userIdFor({userIdFor})");
     _logger.LogInformation("Adding reply for User {userName} for comment {commentId}: {replyText}", User?.Identity?.Name, commentId, replyText);
     await _itemInfoService.AddReply(notifItem, UserId, userIdFor, commentId, replyText);
     return Redirect(Request.Headers["Referer"].ToString());

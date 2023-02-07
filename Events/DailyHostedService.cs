@@ -22,9 +22,7 @@ public class DailyHostedService : BackgroundService
         using (var scope = _serviceProvider.CreateScope())
         {
           var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
-          CustomStopwatch.Start();
           await notificationService.AddPlannedNotifs();
-          CustomStopwatch.Stop(1);
         }
       }
       catch (Exception ex)

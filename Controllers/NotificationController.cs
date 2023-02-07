@@ -23,7 +23,6 @@ public class NotificationController : Controller
   [HttpGet("Remove/{notifId?}")]
   public async Task<IActionResult> Remove(NotifType notifType, int? notifId)
   {
-    _logger.LogInformation($"REMOVE NOTIFICATIONS FOR USER {UserId}. NotifType: {notifType}, notifId: {notifId ?? 0}");
     await _notificationService.Remove(UserId, notifType, notifId);
     return Redirect(Request.Headers["Referer"].ToString());
   }
