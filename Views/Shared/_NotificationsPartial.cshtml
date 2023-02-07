@@ -1,0 +1,112 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+  @inject IUserRepo userRepo
+  @inject INotificationService notificaionsService
+  string userId = userRepo.GetId(User);
+
+  var plannedNotifs = await notificaionsService.GetPlannedNotifs(userId);
+  <a href="#plannedNotifId" class="notification" onclick="getElementById('plannedNotifId').hidden = !getElementById('plannedNotifId').hidden">
+    <span>Planned</span>
+    <span class="badge">@plannedNotifs.Count()</span>
+  </a>
+
+  <div id="plannedNotifId" class="notifDiv dropdown-menu" hidden>
+    <table class="table">
+      <tr><a asp-controller="Notification" asp-action="Remove" asp-route-notifType="@NotifType.Planned" style="color: black; font-weight: bold">Clear all</a></tr>
+      @foreach (var notif in plannedNotifs)
+      {
+        <tr>
+          <td style="vertical-align: middle;">
+            <form method="get" asp-controller="Notification" asp-action="Remove">
+              <label class="btn btn-default">
+                <input type="hidden" name="notifType" value="@NotifType.Planned">
+                <input type="checkbox" name="notifId" value="@notif.Id" onclick="form.submit();" />
+              </label>
+            </form>
+          </td>
+          <td style="font-size: 11pt; color: white">
+            <p style="margin: 0px; text-align: left"> Planned for @notif.PlannedDate </p>
+            <p style="margin: 0px; text-align: left; word-wrap: break-word;"> @notif.ListContentType: @notif.ItemTitle </p>
+            <p style="margin: 0px; text-align: left"> @notif.ListType: @notif.ListName </p>
+          </td>
+          <td style="text-align: center; vertical-align: middle;">
+            <a asp-controller="@notif.ListType" asp-action="Get" asp-route-contentType="@notif.ListContentType" asp-route-listName="@notif.ListName"><img src="~/images/share.png" alt="like icon" width="20" height="20" /></a>
+          </td>
+        </tr>
+      }
+    </table>
+  </div>
+
+  var repliedNotifs = await notificaionsService.GetRepliedNotifs(userId);
+  <a href="#repliedNotifId" class="notification" onclick="getElementById('repliedNotifId').hidden = !getElementById('repliedNotifId').hidden">
+    <span>Replies</span>
+    <span class="badge">@repliedNotifs.Count()</span>
+  </a>
+
+  <div id="repliedNotifId" class="notifDiv dropdown-menu" hidden>
+    <table class="table">
+      <tr><a asp-controller="Notification" asp-action="Remove" asp-route-notifType="@NotifType.Replied" style="color: black; font-weight: bold">Clear all</a></tr>
+      @foreach (var notif in repliedNotifs)
+      {
+        <tr>
+          <td style="vertical-align: middle;">
+            <form method="get" asp-controller="Notification" asp-action="Remove">
+              <label class="btn btn-default">
+                <input type="hidden" name="notifType" value="@NotifType.Replied">
+                <input type="checkbox" name="notifId" value="@notif.Id" onclick="form.submit();" />
+              </label>
+            </form>
+          </td>
+          <td style="font-size: 11pt; color: white">
+            <p style="margin: 0px; text-align: left"> @notif.ItemContentType: @notif.ItemTitle </p>
+            <p style="margin: 0px;">
+              <span style="float: left;">From: @await userRepo.GetUserName(@notif.UserIdFrom)</span>
+              <span style="float: right; padding-left: 10px;"> @notif.ReplyTime </span>
+            </p>
+            <p style="margin: 0px; text-align: left"> Reply: @notif.ReplyText </p>
+          </td>
+          <td style="text-align: center; vertical-align: middle;">
+            <a asp-controller="@notif.ItemContentType" asp-action="Get" asp-route-itemId="@notif.ItemId"><img src="~/images/share.png" alt="like icon" width="20" height="20" /></a>
+          </td>
+        </tr>
+      }
+    </table>
+  </div>
+
+
+  var followedNotifs = await notificaionsService.GetFollowedNotifs(userId);
+  <a href="#followedNotifId" class="notification" onclick="getElementById('followedNotifId').hidden = !getElementById('followedNotifId').hidden">
+    <span>Followed</span>
+    <span class="badge">@followedNotifs.Count()</span>
+  </a>
+
+  <div id="followedNotifId" class="notifDiv dropdown-menu" hidden>
+    <table class="table">
+      <tr><a asp-controller="Notification" asp-action="Remove" asp-route-notifType="@NotifType.Followed" style="color: black; font-weight: bold">Clear all</a></tr>
+      @foreach (var notif in followedNotifs)
+      {
+        <tr>
+          <td style="vertical-align: middle;">
+            <form method="get" asp-controller="Notification" asp-action="Remove">
+              <label class="btn btn-default">
+                <input type="hidden" name="notifType" value="@NotifType.Followed">
+                <input type="checkbox" name="notifId" value="@notif.Id" onclick="form.submit();" />
+              </label>
+            </form>
+          </td>
+          <td style="font-size: 11pt; color: white">
+            <p style="margin: 0px; text-align: left"> @notif.ItemContentType: @notif.ItemTitle </p>
+            <p style="margin: 0px;">
+              <span style="float: left;">From: @await userRepo.GetUserName(@notif.UserIdFrom)</span>
+              <span style="float: right; padding-left: 10px;"> @notif.CommentTime </span>
+            </p>
+            <p style="margin: 0px; text-align: left"> Text: @notif.CommentText </p>
+          </td>
+          <td style="text-align: center; vertical-align: middle;">
+            <a asp-controller="@notif.ItemContentType" asp-action="Get" asp-route-itemId="@notif.ItemId"><img src="~/images/share.png" alt="like icon" width="20" height="20" /></a>
+          </td>
+        </tr>
+      }
+    </table>
+  </div>
+}

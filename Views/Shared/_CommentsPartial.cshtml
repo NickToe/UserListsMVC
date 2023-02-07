@@ -48,6 +48,10 @@
 
       <div id="replyTextArea_@comment.CommentId" hidden>
         <form method="get" asp-controller="ItemInfo" asp-action="AddReply">
+          <input type="hidden" name="itemId" value="@ViewData["itemId"]" />
+          <input type="hidden" name="itemTitle" value="@ViewData["itemTitle"]" />
+          <input type="hidden" name="itemContentType" value="@ViewData["itemContentType"]" />
+          <input type="hidden" name="userIdFor" value="@comment.ApplicationUserId" />
           <input type="hidden" name="commentId" value="@comment.CommentId" />
           <textarea class="reply" placeholder="Type your reply here." name="replyText" required></textarea>
           <br>
@@ -101,6 +105,9 @@
 
 <div>
   <form method="get" asp-controller="ItemInfo" asp-action="AddComment">
+    <input type="hidden" name="itemId" value="@ViewData["itemId"]" />
+    <input type="hidden" name="itemTitle" value="@ViewData["itemTitle"]" />
+    <input type="hidden" name="itemContentType" value="@ViewData["itemContentType"]" />
     <input type="hidden" name="itemInfoId" value="@Model.ItemInfoId" />
     <textarea class="comment" placeholder="Type your comment here." name="commentText" required></textarea>
     <br>

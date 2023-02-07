@@ -29,7 +29,12 @@
   </div>
 </div>
 
-<partial name="_CommentsPartial" model="@Model.ItemInfo"/>
+@{
+  ViewData["itemId"] = Model.Item.Id;
+  ViewData["itemTitle"] = Model.Item.Title;
+  ViewData["itemContentType"] = ContentType.Movie;
+}
+<partial name="_CommentsPartial" model="@Model.ItemInfo" view-data="@ViewData"/>
 
 <div>
   <p>Page Views: @Model.ItemInfo.PageViewCounter.Counter</p>

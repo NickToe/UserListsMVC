@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using UserListsMVC.Events;
 
 namespace UserListsMVC.DataLayer.Entities;
 
@@ -15,4 +16,8 @@ public class ApplicationUser : IdentityUser
 
   public ICollection<ReplyVote> ReplyVotes { get; set; } = null!;
   public ICollection<Reply> Replies { get; set; } = null!;
+
+  public ICollection<PlannedDateNotif> PlannedDateNotifs { get; set; } = null!;
+  public ICollection<RepliedNotif> RepliedNotifs { get; set; } = null!;
+  public ICollection<FollowedNotif> FollowedNotifs { get; set; } = null!;
 }

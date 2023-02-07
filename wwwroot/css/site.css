@@ -101,3 +101,41 @@ input[type=number] {
 .btnReply:hover {
   background: #eee;
 }
+
+.notification {
+  background-color: #555;
+  color: white;
+  text-decoration: none;
+  padding: 6px 18px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+  margin-right: 10px;
+}
+
+.notification:hover {
+  color: black;
+  background: yellow;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
+.notifDiv, .flip {
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+  background-color: grey;
+  color: white;
+  border: solid 3px black;
+  border-radius: 5px;
+  margin-top: 50px;
+  display: block;
+}

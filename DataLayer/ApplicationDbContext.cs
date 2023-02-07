@@ -14,6 +14,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
   public DbSet<ViewCounter> ViewCounters { get; set; } = null!;
 
+  public DbSet<FollowlistItem> FollowlistItems { get; set; } = null!;
+
   public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
   public ApplicationDbContext() { }
