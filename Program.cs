@@ -9,6 +9,8 @@ using UserListsMVC.DataLayer.Repo.Implementation;
 using UserListsMVC.ServiceLayer.Interface;
 using UserListsMVC.ServiceLayer.Implementation;
 using UserListsMVC.Events;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Reflection;
 
 namespace UserListsMVC;
 
@@ -22,7 +24,7 @@ public class Program
     builder.Logging.ClearProviders();
     builder.Logging.AddSerilog(logger);
 
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' was not found.");
     builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
     if (builder.Environment.IsDevelopment())
@@ -56,9 +58,13 @@ public class Program
       options.User.RequireUniqueEmail = true;
     });
 
+    builder.Configuration.AddEnvironmentVariables().AddUserSecrets(Assembly.GetExecutingAssembly(), true);
+
     builder.Services.AddHttpContextAccessor();
 
     builder.Services.AddDateOnlyTimeOnlyStringConverters();
+
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
 
     builder.Services.AddScoped<IUserListStore, UserListStore>();
     builder.Services.AddScoped<IUserRepo, UserRepo>();
@@ -85,6 +91,8 @@ public class Program
     builder.Services.AddScoped<IViewCounterRepo, ViewCounterRepo>();
 
     builder.Services.AddScoped<INotificationService, NotificationService>();
+    builder.Services.AddScoped<IEmailNotificationService, EmailNotificationService>();
+    builder.Services.AddScoped<IEmailBugReportService, EmailBugReportService>();
 
     builder.Services.AddScoped<IEventProcessor, EventProcessor>();
 

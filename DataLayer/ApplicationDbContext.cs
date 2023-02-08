@@ -17,12 +17,4 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
   public DbSet<FollowlistItem> FollowlistItems { get; set; } = null!;
 
   public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
-  public ApplicationDbContext() { }
-
-  protected override void OnConfiguring(DbContextOptionsBuilder contextBuilder)
-  {
-    IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-    contextBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-  }
 }

@@ -12,8 +12,8 @@ public abstract class WebApiBase<JsonModel>
     _uriBuilder = new UriBuilder()
     {
       Scheme = "https",
-      Host = configuration.GetValue<string>("PortalWebApi:Host"),
-      Port = configuration.GetValue<int>("PortalWebApi:Port")
+      Host = configuration.GetValue<string>("UserListsApi:Host"),
+      Port = configuration.GetValue<int>("UserListsApi:Port")
     };
     _resourcePath = resourcePath;
     _logger = logger;

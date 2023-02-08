@@ -1,5 +1,4 @@
-﻿using UserListsMVC.DataLayer.ViewModels;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserListsMVC.ServiceLayer.Interface;
 
@@ -19,7 +18,7 @@ public class CustomListController : Controller
     _userListService = userListService;
   }
 
-  [HttpGet("{contentType}/{userName}/{listName}")]
+  [HttpGet("{contentType}/{userName}/CustomList/{listName}")]
   public async Task<IActionResult> GetForUser(ContentType contentType, string listName, string userName)
   {
     _logger.LogInformation("Get(): Getting '{contentType} {listType}' with name '{listName}' for user {userName}", contentType, _listType, listName, userName);
@@ -27,7 +26,7 @@ public class CustomListController : Controller
     return View(model);
   }
 
-  [HttpGet("{contentType}/{listName}")]
+  [HttpGet("{contentType}/CustomList/{listName}")]
   public async Task<IActionResult> Get(ContentType contentType, string listName)
   {
     _logger.LogInformation("Get(): Getting '{contentType} {listType}' with name '{listName}' for myself", contentType, _listType, listName);

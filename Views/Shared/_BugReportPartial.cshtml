@@ -1,0 +1,23 @@
+﻿<a href="#bugReportId" class="nav-link text-dark" onclick="getElementById('bugReportId').hidden = !getElementById('bugReportId').hidden"> Bug report </a>
+
+<div class="bugReportDiv dropdown-menu" id="bugReportId" hidden>
+  <form class="px-4 py-3" method="post" asp-controller="BugReport" asp-action="Send">
+    <h2>Bug Report </h2>
+    @if (!User.Identity.IsAuthenticated)
+    {
+      <div class="form-group" style="padding: 6px">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+    }
+    <div class="form-group" style="padding: 6px">
+      <label for="subject">Subject</label>
+      <input type="text" class="form-control" id="subject" name="subject" required>
+    </div>
+    <div class="form-group" style="padding: 6px">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" name="description" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" style="margin-top: 6px; margin-left: 150px;">Send</button>
+  </form>
+</div>
