@@ -41,9 +41,7 @@ public class GameController : BaseController
     [HttpGet("Get/{itemId}")]
     public async Task<IActionResult> Get(string itemId)
     {
-        CustomStopwatch.Start();
         GetItemPageViewModel<Game> model = new(await _gameService.GetById(itemId), await _itemInfoService.Get(itemId, UserId));
-        CustomStopwatch.Stop();
         return View(model);
     }
 }

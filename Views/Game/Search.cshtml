@@ -25,13 +25,13 @@
     {
       <tbody>
         <tr>
-          <td class="posterColumn"><img class="img-fluid" src="@item.PosterLink" alt="@item.Title poster" /></td>
+          <td class="posterColumn"><img class="img-fluid" src="@item.Poster" alt="@item.Title poster" /></td>
           <td><label class="labelCommonColumn">@item.Id</label></td>
           <td><a asp-controller="@Model.ContentType" asp-route-itemId="@item.Id" asp-action="Get"><label class="labelCommonColumn">@item.Title</label></a></td>
           <td><label class="labelCommonColumn">@item.ReleaseDate </label></td>
           <td>
-            <a class="btn btn-primary" asp-controller="@UserListType.Followlist" asp-route-poster="@item.PosterLink" asp-route-itemId="@item.Id" asp-route-title="@item.Title" asp-action="Add" asp-route-contentType="@Model.ContentType"> Follow </a>
-            <a class="btn btn-primary" asp-controller="@UserListType.Wishlist" asp-route-poster="@item.PosterLink" asp-route-itemId="@item.Id" asp-route-title="@item.Title" asp-action="Add" asp-route-contentType="@Model.ContentType"> Wish </a>
+            <a class="btn btn-primary" asp-controller="@UserListType.Followlist" asp-route-poster="@item.Poster" asp-route-itemId="@item.Id" asp-route-title="@item.Title" asp-action="Add" asp-route-contentType="@Model.ContentType"> Follow </a>
+            <a class="btn btn-primary" asp-controller="@UserListType.Wishlist" asp-route-poster="@item.Poster" asp-route-itemId="@item.Id" asp-route-title="@item.Title" asp-action="Add" asp-route-contentType="@Model.ContentType"> Wish </a>
 
             @if (Model.CustomLists.Any())
             {
@@ -39,7 +39,7 @@
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 @foreach (var customList in Model.CustomLists)
                 {
-                  <a class="dropdown-item" asp-controller="@customList.ListType" asp-action="Add" asp-route-contentType="@customList.ContentType" asp-route-listName="@customList.Name" asp-route-poster="@item.PosterLink" asp-route-itemId="@item.Id" asp-route-title="@item.Title">@customList.Name</a>
+                  <a class="dropdown-item" asp-controller="@customList.ListType" asp-action="Add" asp-route-contentType="@customList.ContentType" asp-route-listName="@customList.Name" asp-route-poster="@item.Poster" asp-route-itemId="@item.Id" asp-route-title="@item.Title">@customList.Name</a>
                 }
               </div>
             }
