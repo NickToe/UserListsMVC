@@ -2,7 +2,7 @@
 
 public enum ContentType
 {
-  None,
-  Game,
-  Movie
+    None,
+    Game,
+    Movie
 };

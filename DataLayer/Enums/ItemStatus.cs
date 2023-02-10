@@ -2,8 +2,8 @@
 
 public enum ItemStatus
 {
-  NotStarted,
-  Planned,
-  Ongoing,
-  Finished
+    NotStarted,
+    Planned,
+    Ongoing,
+    Finished
 }

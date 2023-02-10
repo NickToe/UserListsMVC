@@ -2,5 +2,5 @@
 
 public interface IEmailNotificationService
 {
-  public Task SendEmailAsync();
+    public Task SendEmailAsync();
 }

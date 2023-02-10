@@ -2,19 +2,19 @@
 
 public class EventProcessor : IEventProcessor
 {
-  private ICollection<BaseEvent> _events { get; set; } = new List<BaseEvent>();
+    private ICollection<BaseEvent> _events { get; set; } = new List<BaseEvent>();
 
-  public void AddEvent(BaseEvent baseEvent)
-  {
-    _events.Add(baseEvent);
-  }
-
-  public async Task ProcessEvents()
-  {
-    foreach (BaseEvent baseEvent in _events)
+    public void AddEvent(BaseEvent baseEvent)
     {
-      await baseEvent.Process();
+        _events.Add(baseEvent);
     }
-    _events.Clear();
-  }
+
+    public async Task ProcessEvents()
+    {
+        foreach (BaseEvent baseEvent in _events)
+        {
+            await baseEvent.Process();
+        }
+        _events.Clear();
+    }
 }

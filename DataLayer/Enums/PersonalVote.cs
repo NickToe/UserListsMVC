@@ -2,8 +2,8 @@
 
 public enum PersonalVote
 {
-  None,
-  Neutral,
-  Dislike,
-  Like
+    None,
+    Neutral,
+    Dislike,
+    Like
 }

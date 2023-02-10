@@ -2,8 +2,8 @@
 
 public enum UserListType
 {
-  None,
-  Followlist,
-  Wishlist,
-  CustomList
+    None,
+    Followlist,
+    Wishlist,
+    CustomList
 };

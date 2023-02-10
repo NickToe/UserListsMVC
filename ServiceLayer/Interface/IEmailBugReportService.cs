@@ -2,5 +2,5 @@
 
 public interface IEmailBugReportService
 {
-  public Task SendAsync(string email, string subject, string description);
+    public Task SendAsync(string email, string subject, string description);
 }

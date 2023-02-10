@@ -2,24 +2,24 @@
 
 public class FollowlistItem : UserListItemBase
 {
-  public FollowlistItem(string itemId, string itemTitle, string itemPoster) : base(itemId, itemTitle, itemPoster) { }
-  public FollowlistItem(FollowlistUpdateModel model) : base(model.ItemId, model.Position) { Notifications = model.Notifications; }
+    public FollowlistItem(string itemId, string itemTitle, string itemPoster) : base(itemId, itemTitle, itemPoster) { }
+    public FollowlistItem(FollowlistUpdateModel model) : base(model.ItemId, model.Position) { Notifications = model.Notifications; }
 
-  public bool Notifications { get; set; } = true;
+    public bool Notifications { get; set; } = true;
 
-  public int UserListId { get; set; }
-  public UserList<FollowlistItem> UserList { get; set; } = null!;
+    public int UserListId { get; set; }
+    public UserList<FollowlistItem> UserList { get; set; } = null!;
 
-  public override void Update(UserListItemBase itemCopy)
-  {
-    if (itemCopy is FollowlistItem copy)
+    public override void Update(UserListItemBase itemCopy)
     {
-      Notifications = copy.Notifications;
-      Position = copy.Position;
+        if (itemCopy is FollowlistItem copy)
+        {
+            Notifications = copy.Notifications;
+            Position = copy.Position;
+        }
+        else
+        {
+            throw new Exception("This UserList item is not of FollowlistItem type");
+        }
     }
-    else
-    {
-      throw new Exception("This UserList item is not of FollowlistItem type");
-    }
-  }
 }
