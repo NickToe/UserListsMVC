@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using UserListsMVC.ServiceLayer.Implementation;
+using UserListsMVC.Services.Interface;
 
 namespace UserListsMVC.Areas.Identity.Pages.Account
 {
@@ -23,7 +23,7 @@ namespace UserListsMVC.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly IUserListStore _userListStore;
+        private readonly IUserInitService _userInit;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -31,7 +31,7 @@ namespace UserListsMVC.Areas.Identity.Pages.Account
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IUserListStore userListStore)
+            IUserInitService userInit)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -39,7 +39,7 @@ namespace UserListsMVC.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _userListStore = userListStore;
+            _userInit = userInit;
         }
 
         [BindProperty]
@@ -88,7 +88,7 @@ namespace UserListsMVC.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                await _userListStore.CreateUserLists(user);
+                _userInit.InitUser(user);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

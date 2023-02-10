@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using AutoMapper;
 using UserListsMVC.Json;
 
 namespace UserListsMVC.ApiLayer;
@@ -6,40 +7,33 @@ namespace UserListsMVC.ApiLayer;
 public class WebApiMovie : WebApiBase<MovieJson>, IWebApi<Movie>
 {
     private readonly ILogger<WebApiMovie> _logger;
-    public WebApiMovie(ILogger<WebApiMovie> logger, IConfiguration configuration) : base(logger, configuration, "api/Movie/")
+    public WebApiMovie(ILogger<WebApiMovie> logger, IConfiguration configuration, IMapper mapper) : base(logger, configuration, mapper)
     {
         _logger = logger;
     }
 
     public async Task<Movie> GetItemById(string id)
     {
-        UriBuilder uriBuilder = CopyUriBuilder();
-        uriBuilder.Path = GetFullPath("ById");
-        uriBuilder.Query = $"id={id}";
-        _logger.LogWarning("GetItemById(): id={id}, url={url}", id, _uriBuilder.Uri);
+        UriBuilder uriBuilder = CopyUriBuilder($"movie/{id}");
         MovieJson movieJson = await GetJsonItem(uriBuilder.Uri);
-        return Movie.JsonToModel(movieJson);
+        return _mapper.Map<Movie>(movieJson);
     }
 
     public async Task<IEnumerable<Movie>> GetItemsByIds(IEnumerable<string> ids)
     {
-        UriBuilder uriBuilder = CopyUriBuilder();
-        uriBuilder.Path = GetFullPath("ByIds");
+        UriBuilder uriBuilder = CopyUriBuilder("moves");
         StringBuilder stringBuilder = new StringBuilder();
         ids.ToList().ForEach(item => stringBuilder.AppendJoin(item, "ids=", "&"));
         uriBuilder.Query = stringBuilder.ToString();
-        ICollection<Movie> movies = new List<Movie>();
-        (await GetJsonItems(uriBuilder.Uri)).ToList().ForEach(item => movies.Add(Movie.JsonToModel(item)));
-        return movies;
+        IEnumerable<MovieJson> movies = await GetJsonItems(uriBuilder.Uri);
+        return _mapper.Map<IEnumerable<Movie>>(movies);
     }
 
     public async Task<IEnumerable<Movie>> GetItemsByTitle(string title)
     {
-        UriBuilder uriBuilder = CopyUriBuilder();
-        uriBuilder.Path = GetFullPath("ByTitle");
+        UriBuilder uriBuilder = CopyUriBuilder("movies/title");
         uriBuilder.Query = $"title={title}";
-        ICollection<Movie> movies = new List<Movie>();
-        (await GetJsonItems(uriBuilder.Uri)).ToList().ForEach(item => movies.Add(Movie.JsonToModel(item)));
-        return movies;
+        IEnumerable<MovieJson> movies = await GetJsonItems(uriBuilder.Uri);
+        return _mapper.Map<IEnumerable<Movie>>(movies);
     }
 }

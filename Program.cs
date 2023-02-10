@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using UserListsAPI.DTOs;
 using UserListsMVC.ApiLayer;
 using UserListsMVC.DataLayer;
 using UserListsMVC.DataLayer.Repo.Implementation;
@@ -11,6 +12,8 @@ using UserListsMVC.DataLayer.Repo.Interface;
 using UserListsMVC.Events;
 using UserListsMVC.ServiceLayer.Implementation;
 using UserListsMVC.ServiceLayer.Interface;
+using UserListsMVC.Services.Implementation;
+using UserListsMVC.Services.Interface;
 
 namespace UserListsMVC;
 
@@ -64,9 +67,10 @@ public class Program
 
         builder.Services.AddDateOnlyTimeOnlyStringConverters();
 
-        builder.Services.AddTransient<IEmailSender, EmailSender>();
+        builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
-        builder.Services.AddScoped<IUserListStore, UserListStore>();
+        builder.Services.AddTransient<IEmailSender, EmailSender>();
+        builder.Services.AddScoped<IUserInitService, UserInitService>();
         builder.Services.AddScoped<IUserRepo, UserRepo>();
 
         builder.Services.AddSingleton<IWebApi<Game>, WebApiGame>();
@@ -113,6 +117,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+
         app.UseStaticFiles();
 
         app.UseRouting();
@@ -120,6 +125,7 @@ public class Program
         app.UseResponseCaching();
 
         app.UseAuthentication();
+
         app.UseAuthorization();
 
         app.MapDefaultControllerRoute();
