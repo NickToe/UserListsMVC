@@ -2,8 +2,8 @@
 
 public enum NotifType
 {
-  None,
-  Planned,
-  Replied,
-  Followed
+    None,
+    Planned,
+    Replied,
+    Followed
 }

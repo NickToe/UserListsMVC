@@ -2,8 +2,8 @@
 
 public interface ITextRepo<T>
 {
-  public Task Add(T text);
-  public void Remove(T text);
-  public Task<T> Get(int textId);
-  public Task Save();
+    public Task Add(T text);
+    public void Remove(T text);
+    public Task<T> Get(int textId);
+    public Task Save();
 }
