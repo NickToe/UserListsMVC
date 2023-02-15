@@ -1,8 +1,8 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
-  @inject IUserRepo userRepo
+  @inject IUserService userService
   @inject INotificationService notificaionsService
-  string userId = userRepo.GetId(User);
+  string userId = userService.GetId(User);
 
   var plannedNotifs = await notificaionsService.GetPlannedNotifs(userId);
   <a href="#plannedNotifId" class="notification" onclick="getElementById('plannedNotifId').hidden = !getElementById('plannedNotifId').hidden">
@@ -60,7 +60,7 @@
           <td style="font-size: 11pt; color: white">
             <p style="margin: 0px; text-align: left"> @notif.ItemContentType: @notif.ItemTitle </p>
             <p style="margin: 0px;">
-              <span style="float: left;">From: @await userRepo.GetUserName(@notif.UserIdFrom)</span>
+              <span style="float: left;">From: @await userService.GetUserName(@notif.UserIdFrom)</span>
               <span style="float: right; padding-left: 10px;"> @notif.ReplyTime </span>
             </p>
             <p style="margin: 0px; text-align: left"> Reply: @notif.ReplyText </p>
@@ -97,7 +97,7 @@
           <td style="font-size: 11pt; color: white">
             <p style="margin: 0px; text-align: left"> @notif.ItemContentType: @notif.ItemTitle </p>
             <p style="margin: 0px;">
-              <span style="float: left;">From: @await userRepo.GetUserName(@notif.UserIdFrom)</span>
+              <span style="float: left;">From: @await userService.GetUserName(@notif.UserIdFrom)</span>
               <span style="float: right; padding-left: 10px;"> @notif.CommentTime </span>
             </p>
             <p style="margin: 0px; text-align: left"> Text: @notif.CommentText </p>

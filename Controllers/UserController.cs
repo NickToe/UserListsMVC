@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserListsMVC.DataLayer.Repo.Interface;
-using UserListsMVC.ServiceLayer.Interface;
+using UserListsMVC.Application;
+using UserListsMVC.Application.Abstractions;
+using UserListsMVC.Domain.Entities;
+using UserListsMVC.ViewModels;
 
 namespace UserListsMVC.Controllers;
 
@@ -11,9 +13,9 @@ namespace UserListsMVC.Controllers;
 public class UserController : Controller
 {
     private readonly ILogger<UserController> _logger;
-    private readonly IUserRepo _userRepo;
+    private readonly IUserService _userRepo;
 
-    public UserController(ILogger<UserController> logger, IUserRepo userRepo)
+    public UserController(ILogger<UserController> logger, IUserService userRepo)
     {
         _logger = logger;
         _userRepo = userRepo;

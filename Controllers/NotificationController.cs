@@ -1,7 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserListsMVC.ServiceLayer.Interface;
+using UserListsMVC.Application.Abstractions;
+using UserListsMVC.Domain.Enums;
 
 namespace UserListsMVC.Controllers;
 
