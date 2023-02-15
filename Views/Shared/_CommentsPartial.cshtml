@@ -1,4 +1,4 @@
-﻿@inject IUserRepo userRepo
+﻿@inject IUserService userService
 @model ItemInfo
 
 @if (Model.Comments.Any())
@@ -8,7 +8,7 @@
     @foreach (var comment in Model.Comments)
     {
       <div>
-        <h3> @await userRepo.GetUserName(comment.ApplicationUserId) </h3>
+        <h3> @await userService.GetUserName(comment.ApplicationUserId) </h3>
         <span> @comment.Timestamp</span>
         @if (comment.isEdited)
         {
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      @if (comment.ApplicationUserId == userRepo.GetId(User))
+      @if (comment.ApplicationUserId == userService.GetId(User))
       {
         <a asp-controller="ItemInfo" asp-action="RemoveComment" asp-route-commentId="@comment.CommentId"><img src="~/images/remove.png" alt="like icon" width="30" height="30" /></a>
         <a onclick="getElementById('editCommentTextArea_@comment.CommentId').hidden = !getElementById('editCommentTextArea_@comment.CommentId').hidden"><img src="~/images/update.png" alt="like icon" width="30" height="30" /></a>
@@ -64,7 +64,7 @@
         {
           <div>
             <p> Reply: </p>
-            <h5> @await userRepo.GetUserName(reply.ApplicationUserId) </h5>
+            <h5> @await userService.GetUserName(reply.ApplicationUserId) </h5>
             <span> @reply.Timestamp </span>
             @if (reply.isEdited)
             {
@@ -83,7 +83,7 @@
               @reply.ReplyVotes.Count(vote => vote.PersonalVote == PersonalVote.Dislike)
             </div>
           </div>
-          @if (reply.ApplicationUserId == userRepo.GetId(User))
+          @if (reply.ApplicationUserId == userService.GetId(User))
           {
             <a asp-controller="ItemInfo" asp-action="RemoveReply" asp-route-replyId="@reply.ReplyId"><img src="~/images/remove.png" alt="like icon" width="30" height="30" /></a>
             <a onclick="getElementById('editReplyTextArea_@reply.ReplyId').hidden = !getElementById('editReplyTextArea_@reply.ReplyId').hidden"><img src="~/images/update.png" alt="like icon" width="30" height="30" /></a>

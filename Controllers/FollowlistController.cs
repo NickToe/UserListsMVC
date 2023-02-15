@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserListsMVC.ServiceLayer.Interface;
+using UserListsMVC.Application.Abstractions;
+using UserListsMVC.Application.DTOs;
+using UserListsMVC.Domain.Entities;
+using UserListsMVC.Domain.Enums;
+using UserListsMVC.ViewModels;
 
 namespace UserListsMVC.Controllers;
 
@@ -60,7 +64,7 @@ public class FollowlistController : Controller
     }
 
     [HttpGet("{contentType}/Followlist/Update")]
-    public async Task<IActionResult> Update(ContentType contentType, FollowlistUpdateModel followlistUpdateModel)
+    public async Task<IActionResult> Update(ContentType contentType, FollowlistItemDTO followlistUpdateModel)
     {
         _logger.LogInformation($"UpdateInFollowlist(): {followlistUpdateModel} {UserName}");
 

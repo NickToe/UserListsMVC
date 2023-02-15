@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using UserListsMVC.Events;
-using UserListsMVC.ServiceLayer.Interface;
+using UserListsMVC.Application.Abstractions;
+using UserListsMVC.Application.DTOs;
+using UserListsMVC.Application.Events;
+using UserListsMVC.Domain.Enums;
 
 namespace UserListsMVC.Controllers;
 
@@ -33,7 +35,7 @@ public class ItemInfoController : Controller
     }
 
     [HttpGet("AddComment")]
-    public async Task<IActionResult> AddComment(NotifItem notifItem, int itemInfoId, string commentText)
+    public async Task<IActionResult> AddComment(ItemDetailsDTO notifItem, int itemInfoId, string commentText)
     {
         _logger.LogInformation("Adding comment for User {userName} for item {itemInfoId}: {text}", User?.Identity?.Name, itemInfoId, commentText);
         await _itemInfoService.AddComment(notifItem, UserId, itemInfoId, commentText);
@@ -65,7 +67,7 @@ public class ItemInfoController : Controller
     }
 
     [HttpGet("AddReply")]
-    public async Task<IActionResult> AddReply(NotifItem notifItem, string userIdFor, int commentId, string replyText)
+    public async Task<IActionResult> AddReply(ItemDetailsDTO notifItem, string userIdFor, int commentId, string replyText)
     {
         _logger.LogInformation("Adding reply for User {userName} for comment {commentId}: {replyText}", User?.Identity?.Name, commentId, replyText);
         await _itemInfoService.AddReply(notifItem, UserId, userIdFor, commentId, replyText);

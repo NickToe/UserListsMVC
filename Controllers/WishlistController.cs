@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserListsMVC.ServiceLayer.Interface;
+using UserListsMVC.Application.Abstractions;
+using UserListsMVC.Application.DTOs;
+using UserListsMVC.Domain.Entities;
+using UserListsMVC.Domain.Enums;
+using UserListsMVC.ViewModels;
 
 namespace UserListsMVC.Controllers;
 
@@ -60,7 +64,7 @@ public class WishlistController : Controller
     }
 
     [HttpGet("{contentType}/Wishlist/Update")]
-    public async Task<IActionResult> Update(ContentType contentType, WishlistUpdateModel wishlistUpdateModel)
+    public async Task<IActionResult> Update(ContentType contentType, WishlistItemDTO wishlistUpdateModel)
     {
         _logger.LogInformation("UpdateInWishlist: wishlistupdatemodel: {wishlistupdatemodel}", wishlistUpdateModel);
         WishlistItem item = new(wishlistUpdateModel);

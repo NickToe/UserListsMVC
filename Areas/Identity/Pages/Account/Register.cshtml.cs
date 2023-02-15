@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using UserListsMVC.Services.Interface;
+using UserListsMVC.Application;
+using UserListsMVC.Application.Abstractions;
 
 namespace UserListsMVC.Areas.Identity.Pages.Account
 {

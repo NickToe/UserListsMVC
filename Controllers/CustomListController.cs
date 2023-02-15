@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserListsMVC.ServiceLayer.Interface;
+using UserListsMVC.Application.Abstractions;
+using UserListsMVC.Application.DTOs;
+using UserListsMVC.Domain.Entities;
+using UserListsMVC.Domain.Enums;
+using UserListsMVC.ViewModels;
 
 namespace UserListsMVC.Controllers;
 
@@ -62,11 +66,11 @@ public class CustomListController : Controller
     }
 
     [HttpGet("{contentType}/{listName}/Update")]
-    public async Task<IActionResult> Update(ContentType contentType, string listName, CustomListUpdateModel customListUpdateModel)
+    public async Task<IActionResult> Update(ContentType contentType, string listName, CustomListItemDTO customListItemDTO)
     {
-        _logger.LogInformation($"Update(): {customListUpdateModel} {UserName}");
+        _logger.LogInformation($"Update(): {customListItemDTO} {UserName}");
 
-        CustomListItem item = new(customListUpdateModel);
+        CustomListItem item = new(customListItemDTO);
         await _userListService.Update(UserName, listName, item);
         return Redirect(Request.Headers["Referer"].ToString());
     }

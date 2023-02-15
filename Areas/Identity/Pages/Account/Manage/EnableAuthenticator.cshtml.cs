@@ -9,6 +9,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using UserListsMVC.Application;
 
 namespace UserListsMVC.Areas.Identity.Pages.Account.Manage
 {
