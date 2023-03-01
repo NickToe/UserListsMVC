@@ -63,4 +63,4 @@ dotnet build --configuration Release
 
 
 ## Contact
-Created by [@N1ckToe](https://web.telegram.org/k/#@N1ckToe) - feel free to contact me!
+Created by [@N1ckToe](https://t.me/N1ckToe) - feel free to contact me!
